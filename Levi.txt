@@ -1,0 +1,10 @@
+import random
+
+jokes = [
+    "Why don’t skeletons fight each other? They don’t have the guts.",
+    "I told my computer I needed a break, and it said 'No problem — I’ll go to sleep.'",
+    "Parallel lines have so much in common… it’s a shame they’ll never meet."
+]
+
+print(random.choice(jokes))
+

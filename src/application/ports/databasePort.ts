@@ -1,5 +1,5 @@
 export type DatabasePort = {
-  open: () => Promise<void>
+  open: () => PromiseLike<unknown>
   close: () => void
   schemaVersion: number
 }

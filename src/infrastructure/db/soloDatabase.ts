@@ -6,6 +6,7 @@ import {
   schemaByVersion,
   tableNames,
   type ActivityRecord,
+  type CategoryRecord,
   type TrackerDefinitionRecord,
   type UserSettingsRecord
 } from './schema'
@@ -18,6 +19,7 @@ export type DatabaseDependencies = {
 
 export class SoloDatabase extends Dexie implements DatabasePort {
   public readonly settings!: EntityTable<UserSettingsRecord, 'id'>
+  public readonly categories!: EntityTable<CategoryRecord, 'id'>
   public readonly trackers!: EntityTable<TrackerDefinitionRecord, 'id'>
   public readonly activities!: EntityTable<ActivityRecord, 'id'>
 
@@ -30,10 +32,14 @@ export class SoloDatabase extends Dexie implements DatabasePort {
     this.idProvider = idProvider
 
     for (const schema of schemaByVersion) {
-      this.version(schema.version).stores(schema.stores)
+      const definition = this.version(schema.version).stores(schema.stores)
+      if (schema.upgrade) {
+        definition.upgrade(schema.upgrade)
+      }
     }
 
     this.settings = this.table(tableNames.settings)
+    this.categories = this.table(tableNames.categories)
     this.trackers = this.table(tableNames.trackers)
     this.activities = this.table(tableNames.activities)
   }

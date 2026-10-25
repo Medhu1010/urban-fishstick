@@ -12,9 +12,9 @@ describe('App shell', () => {
     expect(screen.getByText('Dashboard is in early foundation state')).toBeInTheDocument()
   })
 
-  it('renders tracker placeholder route', () => {
-    renderWithRouter(<AppRoutes />, ['/trackers'])
+  it('renders trackers route heading', async () => {
+    renderWithRouter(<AppRoutes />, { initialEntries: ['/trackers'] })
 
-    expect(screen.getByText('Trackers is in early foundation state')).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { level: 2, name: 'Trackers' })).toBeInTheDocument()
   })
 })

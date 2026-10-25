@@ -1,7 +1,18 @@
 import type { PropsWithChildren } from 'react'
-import { MemoryRouter } from 'react-router-dom'
 import { render } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
+import { AppProviders } from '../../app/providers/AppProviders'
+import type { AppServices } from '../../app/providers/AppServicesContext'
 
-export function renderWithRouter(children: PropsWithChildren['children'], initialEntries: string[] = ['/']) {
-  return render(<MemoryRouter initialEntries={initialEntries}>{children}</MemoryRouter>)
+type RenderWithRouterOptions = {
+  initialEntries?: string[]
+  services?: AppServices
+}
+
+export function renderWithRouter(children: PropsWithChildren['children'], options: RenderWithRouterOptions = {}) {
+  return render(
+    <AppProviders services={options.services}>
+      <MemoryRouter initialEntries={options.initialEntries ?? ['/']}>{children}</MemoryRouter>
+    </AppProviders>
+  )
 }
